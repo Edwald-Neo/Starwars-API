@@ -1,31 +1,66 @@
-'use strict'
-    var generateButton = document.getElementById('generateButton')
+$(document).ready(function()
+      {
+        $("#generateButton").click(function()
+          { 
+            const randomNum = Math.ceil(Math.random()*88);
+            $.get(`https://akabab.github.io/starwars-api/api/id/${randomNum}.json`, function (data)
+            {
+              var starwarChar = 
+              {
+                'name' : data.name,
+                'homeworld' : data.homeworld,
+                'bornlocation' : data.bornLocation,
+                'diedLocation' : data.diedLocation,
+                'wiki' : data.wiki,
+                'species' : data.species,
+                'masters' : data.masters,
+                'image' : data.image
+              }
 
-    generateButton.addEventListener('click',function(event)
-    {
-        event.preventDefault();
+              if(typeof starwarChar.homeworld == 'undefined')
+              {
+                starwarChar.homeworld = 'Not Available'
+              }
+              if(typeof starwarChar.bornLocation == 'undefined')
+              {
+                starwarChar.bornLocation = 'Not Available'
+              }
+              if(typeof starwarChar.diedLocation == 'undefined')
+              {
+                starwarChar.diedLocation = 'Not Available'
+              }
+              if(typeof starwarChar.wiki == 'undefined')
+              {
+                starwarChar.wiki = 'Not Available'
+              }
+              if(typeof starwarChar.species == 'undefined')
+              {
+                starwarChar.species = 'Not Available'
+              }
+              if(typeof starwarChar.masters == 'undefined')
+              {
+                starwarChar.masters = 'Not Available'
+              }
+              if(typeof starwarChar.image == 'undefined')
+              {
+                starwarChar.image = 'Not Available'
+              }
 
-        var displayChar = document.getElementById('displayChar');
-        displayChar.className='container main-form2 m-auto';
-
-        
-        const randomNum = Math.ceil(Math.random()*88);
-        // "https://akabab.github.io/starwars-api/api/id/5.json"
-        $.get(`https://akabab.github.io/starwars-api/api/id/${randomNum}.json`, function (data)
-        {
-            displayChar.innerHTML=
-            `
-            <h1 class='text-center display-5 api-header'>
-            ${data.name} Profile
-            </h1>
-            <table class='m-auto'>
+              console.log(starwarChar);
+              
+              $('#displayChar').html(
+                `
+                <h1 class='text-center display-5 api-header'>
+                ${starwarChar.name} Profile
+                </h1>
+                <table class='m-auto'>
                 <tbody class='text-center'>
                     <tr>
                         <td class='left-column'>
                             Home World
                         </td>
                         <td class='right-column'>
-                            ${data.homeworld}
+                            ${starwarChar.homeworld}
                         </td>
                     </tr>
                     <tr>
@@ -33,7 +68,7 @@
                             Born Location
                         </td>
                         <td class='right-column'>
-                            ${data.bornLocation}
+                            ${starwarChar.bornLocation}
                         </td>
                     </tr>
                     <tr>
@@ -41,7 +76,7 @@
                             Died at
                         </td>
                         <td class='right-column'>
-                            ${data.diedLocation}
+                            ${starwarChar.diedLocation}
                         </td>
                     </tr>
                     <tr>
@@ -49,7 +84,7 @@
                             Wiki Information
                         </td>
                         <td class='right-column'>
-                        <a href="${data.wiki}">${data.wiki}</a>
+                        <a href="${starwarChar.wiki}">${starwarChar.wiki}</a>
                         </td>
                     </tr>
                     <tr>
@@ -57,7 +92,7 @@
                             Species
                         </td>
                         <td class='right-column'>
-                            ${data.species}
+                            ${starwarChar.species}
                         </td>
                     </tr>
                     <tr>
@@ -65,7 +100,7 @@
                             Masters
                         </td>
                         <td class='right-column'>
-                            ${data.masters}
+                            ${starwarChar.masters}
                         </td>
                     </tr>
                     <tr>
@@ -73,12 +108,14 @@
                             Profile Pic
                         </td>
                         <td class='right-column'>
-                            <img src="${data.image}" alt="${data.name} Picture" class='img-resize mb-5'>
+                            <img src="${starwarChar.image}" alt="${starwarChar.name} Picture" class='img-resize mb-5'>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            `
-            displayChar.className='main-form2 container m-auto'  
-        });
-    })
+                `
+                )
+            })
+              
+          });
+      });
